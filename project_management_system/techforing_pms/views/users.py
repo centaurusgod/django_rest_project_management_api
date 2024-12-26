@@ -8,7 +8,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
-from django.http import Http404
 
 
 # Get User Details (GET /api/users/{id}/): Retrieve details of a specific user.
