@@ -64,6 +64,19 @@ http://localhost:8000/api/docs/
 ```
 ![Swagger API Documentation](project_management_system/images/swagger_api_documentation)
 
+Note: You need to login and get your access token to access the protected endpoints.
+To login, use the following endpoint:
+```
+http://localhost:8000/api/users/login/
+```
+And use the following credentials:
+```
+{
+"username": "user1",
+"password": "password123"
+}
+```
+
 
 ## Authentication
 
