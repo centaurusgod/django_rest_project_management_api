@@ -2,12 +2,8 @@ from enum import unique
 from django.db import models
 import os
 from datetime import datetime
-import hashlib
-import binascii
-
+from django.contrib.auth.hashers import make_password
 # Create your models here.
-
-#ensure encyrption in the Users password when saving
     
 class User(models.Model):
 #  I‘d: Primary Key
@@ -28,13 +24,10 @@ class User(models.Model):
         return self.username 
 
     def save(self, *args, **kwargs):
-        self.password = self._hash_password(self.password)
+        # Hash the password before saving if it's not already hashed
+        if not self.password.startswith('pbkdf2_') and not self.password.startswith('argon2$'):
+            self.password = make_password(self.password)
         super().save(*args, **kwargs)
-
-    def _hash_password(self, password):
-        salt = os.urandom(32)
-        key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-        return binascii.hexlify(key).decode('utf-8')
 
     class Meta:
         verbose_name = 'User'
