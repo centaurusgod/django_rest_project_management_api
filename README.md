@@ -4,11 +4,11 @@ A robust Django-based project management system that allows efficient management
 
 
 
-## ⚡️ Quick Start Guide
+## Guidelines
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/centaurusgod/django_rest_project_management_api.git
 cd project_management_system
 ```
 
@@ -27,7 +27,13 @@ pip install -r requirements.txt
 
 ### 4. Database Setup
 ```bash
+python manage.py makemigrations
 python manage.py migrate
+```
+
+### 5. Populate Database with Dummy Data
+```bash
+python techforing_pms/populate_db.py
 ```
 
 ### 5. Create Superuser
@@ -35,36 +41,24 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 Use the following credentials:
-- Username: ozone
-- Email: ozonewagle998@gmail.com
-- Password: ozone12345
+- Username: your_username
+- Email: your_email@example.com
+- Password: Password123!
 
-### 6. Populate Database
-```bash
-python techforing_pms/populate_db.py
-```
 
 ### 7. Run Development Server
 ```bash
 python manage.py runserver
 ```
 
-## 🔗 API Documentation
+## API Documentation
 
 Access the Swagger API documentation at:
 ```
-http://localhost:8000/api/schema/swagger-ui/
+http://localhost:8000/api/docs/
 ```
-![Swagger API Documentation](images/swagger_api_documentation.png)
+![Swagger API Documentation](project_management_system/images/swagger_api_documentation.png)
 
-## 🚀 Tech Stack
-
-- Python 3.12.3
-- Django 5.1.4
-- Django REST Framework
-- JWT Authentication
-- SQLite3 Database
-- Swagger/OpenAPI Documentation
 
 ## 🔒 Authentication
 
