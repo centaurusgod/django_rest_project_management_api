@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('techforing_pms.urls.users_urls')),
     path('api/projects/', include('techforing_pms.urls.projects_urls')),
+    path('api/', include('techforing_pms.urls.tasks_urls')),
+    path('api/', include('techforing_pms.urls.comments_urls')),
 ]
