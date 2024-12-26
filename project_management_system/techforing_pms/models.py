@@ -1,37 +1,33 @@
 from enum import unique
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 import os
 from datetime import datetime
 from django.contrib.auth.hashers import make_password
 # Create your models here.
-    
-class User(models.Model):
-#  I‘d: Primary Key
-# Username: String (Unique)
-# Email: String (Unique)
-# Password: String
-# First_name: String
-# Last_name: String
-# Date_joined: DateTime
-    username = models.CharField(max_length=150, unique=True)  
-    email = models.EmailField(unique=True) 
-    password = models.CharField(max_length=255) 
+
+class User(AbstractUser):
+    """
+    Custom User model that extends Django's AbstractUser.
+    Additional fields can be added here.
+    """
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    date_joined = models.DateTimeField(auto_now_add=True) 
-    
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
     def __str__(self):
-        return self.username 
+        return self.username
 
     def save(self, *args, **kwargs):
         # Hash the password before saving if it's not already hashed
         if not self.password.startswith('pbkdf2_') and not self.password.startswith('argon2$'):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
 
 class Project(models.Model):
 #     I‘d: Primary Key

@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from ..models import Project
 from ..serializers import ProjectSerializer
 from rest_framework.response import Response
@@ -12,6 +13,7 @@ from rest_framework import status
 # Delete Project (DELETE /api/projects/{id}/): Delete a project.
 
 class ProjectListCreateView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
@@ -42,6 +44,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     

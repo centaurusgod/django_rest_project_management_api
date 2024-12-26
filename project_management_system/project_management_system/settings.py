@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from datetime import timedelta
 
 # Load environment variables from .env file
 load_dotenv()
@@ -131,6 +132,26 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom User Model
+AUTH_USER_MODEL = 'techforing_pms.User'
+
+# JWT Settings
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),      # Access token expires in 30 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),         # Refresh token expires in 1 day
+    'ROTATE_REFRESH_TOKENS': False,                      # Don't create new refresh token when refreshing access token
+    'BLACKLIST_AFTER_ROTATION': True,                    # Blacklist old refresh tokens when rotated
+    'UPDATE_LAST_LOGIN': True,                          # Update last login timestamp when token is created
+    
+    'ALGORITHM': 'HS256',                               # Algorithm used to sign the token
+    'SIGNING_KEY': SECRET_KEY,                          # Key used to sign the token
+    'VERIFYING_KEY': None,                              # Key used to verify the token
+    'AUTH_HEADER_TYPES': ('Bearer',),                   # Authorization header type
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',           # Name of the authorization header
+    'USER_ID_FIELD': 'id',                             # Field used to identify the user
+    'USER_ID_CLAIM': 'user_id',                        # Claim used to store the user ID
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
