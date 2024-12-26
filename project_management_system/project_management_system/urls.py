@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -25,4 +26,9 @@ urlpatterns = [
     path('api/tasks/', include('techforing_pms.urls.tasks_urls')),
     path('api/comments/', include('techforing_pms.urls.comments_urls')),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # API Schema documentation
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI - you can use either Swagger or Redoc
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]

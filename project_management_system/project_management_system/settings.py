@@ -46,8 +46,7 @@ INSTALLED_APPS = [
     'techforing_pms',
     'rest_framework',
     'rest_framework_simplejwt',
-    
-
+    'drf_spectacular',  # Add this line
 ]
 
 MIDDLEWARE = [
@@ -157,6 +156,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # Add this line
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Project Management System API',
+    'DESCRIPTION': 'API documentation for Project Management System',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
