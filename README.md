@@ -14,9 +14,14 @@ cd project_management_system
 
 ### 2. Set Up Virtual Environment
 ```bash
+# On Linux(debian based)
+sudo apt install virtualenv
+virtualenv venv
+source venv/bin/activate
+# OR
 python -m venv venv
 source venv/bin/activate  # On Linux/Mac
-# or
+# OR
 venv\Scripts\activate  # On Windows
 ```
 
@@ -60,7 +65,7 @@ http://localhost:8000/api/docs/
 ![Swagger API Documentation](project_management_system/images/swagger_api_documentation.png)
 
 
-## 🔒 Authentication
+## Authentication
 
 The system uses JWT (JSON Web Token) authentication. To access protected endpoints:
 1. Obtain a token by logging in
