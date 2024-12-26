@@ -62,7 +62,7 @@ Access the Swagger API documentation at:
 ```
 http://localhost:8000/api/docs/
 ```
-![Swagger API Documentation](project_management_system/images/swagger_api_documentation.png)
+![Swagger API Documentation](project_management_system/images/swagger_api_documentation)
 
 
 ## Authentication
