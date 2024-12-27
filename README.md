@@ -7,6 +7,7 @@ A robust Django-based project management system that allows efficient management
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/centaurusgod/django_rest_project_management_api.git
+cd django_rest_project_management_api
 cd project_management_system
 ```
 
