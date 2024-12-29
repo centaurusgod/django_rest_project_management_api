@@ -4,13 +4,13 @@ A robust Django-based project management system that allows efficient management
 
 ## Guidelines
 
-## Setting up this project & automatic deployment of this project in amazon ec2 instance
+## Option 1: Setting up this project & automatic deployment of this project in amazon ec2 instance
 For automated deployment of this project on an Amazon EC2 instance, you can follow the deployment script and instructions available at:
 [Django Server Deployment Scripts](https://github.com/centaurusgod/bash_django_server_deployment)
 
 
 
-## Setting Up The Project in Local Server
+## Option 2: Setting Up The Project in Local Server
 
 ### 1. Clone the Repository
 ```bash
