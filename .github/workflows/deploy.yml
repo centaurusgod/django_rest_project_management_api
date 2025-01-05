@@ -33,8 +33,8 @@ jobs:
           git pull origin master
 
           # Step 3c: Go to the project management directory for migrations and collectstatic
-          #Activate virtual environment
-          source /home/ubuntu/django_rest_project_management_api/project_management_system/venv/bin/activate 
+          # Activate virtual environment
+          source /home/ubuntu/django_rest_project_management_api/project_management_system/venv/bin/activate
           cd /home/ubuntu/django_rest_project_management_api/project_management_system
           pip install -r requirements.txt
           python manage.py makemigrations
