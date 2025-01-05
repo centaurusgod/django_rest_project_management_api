@@ -14,12 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 2: Set up SSH access to EC2 instance
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
     # Step 3: Debug SSH Connection (to ensure it works correctly)
     - name: Debug SSH Connection
       run: |
@@ -28,6 +22,14 @@ jobs:
         eval $(ssh-agent -s)  # Start the SSH agent
         ssh-add private_key.pem  # Add the private key to the agent
         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} "echo 'SSH connected successfully!'"
+
+    # Step 2: Set up SSH access to EC2 instance
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+
 
     # Step 4: SSH into EC2 instance and stop services, pull changes, migrate, collectstatic, restart services
     - name: Deploy to EC2
