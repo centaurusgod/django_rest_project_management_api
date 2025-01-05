@@ -13,33 +13,35 @@ jobs:
     # Step 1: Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v3
-    # Intermediate step for debugging  
-    - name: Check SSH private key
-      run: |
-        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
-        chmod 600 private_key.pem
-        ssh-add private_key.pem
-        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} "echo 'SSH connected successfully!'"
-    
+
     # Step 2: Set up SSH access to EC2 instance
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
-    # Step 3: SSH into EC2 instance and stop services, pull changes, migrate, collectstatic, restart services
+    # Step 3: Debug SSH Connection (to ensure it works correctly)
+    - name: Debug SSH Connection
+      run: |
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        eval $(ssh-agent -s)  # Start the SSH agent
+        ssh-add private_key.pem  # Add the private key to the agent
+        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} "echo 'SSH connected successfully!'"
+
+    # Step 4: SSH into EC2 instance and stop services, pull changes, migrate, collectstatic, restart services
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-          # Step 3a: Stop Nginx and Gunicorn services
+          # Step 4a: Stop Nginx and Gunicorn services
           sudo systemctl stop nginx
           sudo systemctl stop gunicorn
 
-          # Step 3b: Go to project directory and pull the latest code
+          # Step 4b: Go to project directory and pull the latest code
           cd /home/ubuntu/django_rest_project_management_api
           git pull origin master
 
-          # Step 3c: Go to the project management directory for migrations and collectstatic
+          # Step 4c: Go to the project management directory for migrations and collectstatic
           # Activate virtual environment
           source /home/ubuntu/django_rest_project_management_api/project_management_system/venv/bin/activate
           cd /home/ubuntu/django_rest_project_management_api/project_management_system
@@ -48,7 +50,7 @@ jobs:
           python manage.py migrate
           python manage.py collectstatic --noinput
 
-          # Step 3d: Restart Nginx and Gunicorn services
+          # Step 4d: Restart Nginx and Gunicorn services
           sudo systemctl start nginx
           sudo systemctl start gunicorn
         EOF
