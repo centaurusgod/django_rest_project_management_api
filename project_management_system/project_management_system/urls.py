@@ -31,4 +31,7 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI - you can use either Swagger or Redoc
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+
+    #Testing template view for github actions automation
+    path('', include('test_template.urls'))
 ]
