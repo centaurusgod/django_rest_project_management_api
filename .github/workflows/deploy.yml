@@ -13,7 +13,14 @@ jobs:
     # Step 1: Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v3
-
+    # Intermediate step for debugging  
+    - name: Check SSH private key
+      run: |
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        ssh-add private_key.pem
+        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} "echo 'SSH connected successfully!'"
+    
     # Step 2: Set up SSH access to EC2 instance
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
