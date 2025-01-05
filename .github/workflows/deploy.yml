@@ -14,24 +14,20 @@ jobs:
 
     - name: Configure SSH
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        SSH_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       run: |
-        mkdir -p ~/.ssh/
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/deployment_key
-        chmod 600 ~/.ssh/deployment_key
+        mkdir -p ~/.ssh
+        echo "$SSH_KEY" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
         eval $(ssh-agent -s)
-        ssh-add ~/.ssh/deployment_key
-        ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+        ssh-add ~/.ssh/deploy_key
+        echo "Added key to SSH agent"
 
     - name: Deploy to EC2
       env:
-        EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
+        HOST: ${{ secrets.EC2_PUBLIC_IP }}
       run: |
-        ssh -i ~/.ssh/deployment_key ec2-user@$EC2_PUBLIC_IP << 'EOF'
-          # Your deployment commands here
-          sudo systemctl stop nginx
-          sudo systemctl stop gunicorn
-
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key ubuntu@$HOST << 'EOF'
           cd /home/ubuntu/django_rest_project_management_api
           git pull origin master
 
@@ -42,6 +38,6 @@ jobs:
           python manage.py migrate
           python manage.py collectstatic --noinput
 
-          sudo systemctl start nginx
-          sudo systemctl start gunicorn
+          sudo systemctl restart nginx
+          sudo systemctl restart gunicorn
         EOF
